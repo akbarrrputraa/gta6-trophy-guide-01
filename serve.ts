@@ -1,51 +1,63 @@
-// GTA 6 Trophy Guide & Tracker — tiny static server for the app.
-//
-// Serves app/ on http://localhost:8080 with no dependencies and no
-// network access: every file comes from the local app/ directory.
-//
-// Usage: node serve.ts
-//   PORT=8080 node serve.ts   (to pick another port)
-import { createReadStream, existsSync, statSync } from "node:fs";
-import { createServer } from "node:http";
-import { extname, join, normalize, resolve, sep } from "node:path";
-import { fileURLToPath } from "node:url";
+// Tiny static server for the GTA 6 trophy guide (Node 22, standard library
+// only). Development convenience, not a production server: `node serve.ts`
+// serves app/ on http://localhost:8080 (`--port <n>` picks another port).
+// It sends the MIME types a browser needs, refuses any path that escapes
+// app/, and otherwise does nothing clever.
 
-const appDir = resolve(fileURLToPath(new URL("./app", import.meta.url)));
-const port = Number(process.env.PORT ?? 8080);
+import { createReadStream, statSync } from 'node:fs';
+import { createServer } from 'node:http';
+import { extname, join, normalize, resolve, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const TYPES = {
-  ".html": "text/html; charset=utf-8",
-  ".css": "text/css; charset=utf-8",
-  ".js": "text/javascript; charset=utf-8",
-  ".json": "application/json; charset=utf-8",
-  ".png": "image/png",
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".svg": "image/svg+xml",
+const appRoot = resolve(fileURLToPath(new URL('./app', import.meta.url)));
+const args = process.argv.slice(2);
+const portFlag = args.indexOf('--port');
+const wanted = portFlag === -1 ? 8080 : Number(args[portFlag + 1]);
+const port = Number.isInteger(wanted) && wanted > 0 && wanted < 65536 ? wanted : 8080;
+
+const TYPES: Record<string, string> = {
+  '.html': 'text/html; charset=utf-8',
+  '.js': 'text/javascript; charset=utf-8',
+  '.mjs': 'text/javascript; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
+  '.svg': 'image/svg+xml',
+  '.ico': 'image/x-icon',
 };
 
-const server = createServer((req, res) => {
-  // Only GET and HEAD, and only paths inside app/: anything with ".."
-  // or an absolute escape is rejected rather than served.
-  if (req.method !== "GET" && req.method !== "HEAD") {
-    res.writeHead(405, { "content-type": "text/plain" });
-    res.end("Method not allowed\n");
+createServer((req, res) => {
+  let path: string;
+  try {
+    path = decodeURIComponent(new URL(req.url ?? '/', 'http://localhost').pathname);
+  } catch {
+    res.writeHead(400).end('bad request');
     return;
   }
-  const url = new URL(req.url ?? "/", "http://localhost");
-  let rel = decodeURIComponent(url.pathname);
-  if (rel === "/") rel = "/index.html";
-  const file = resolve(join(appDir, normalize(rel).replace(/^(\.\.[/\\])+/, "")));
-  if (!file.startsWith(appDir + sep) || !existsSync(file) || !statSync(file).isFile()) {
-    res.writeHead(404, { "content-type": "text/plain" });
-    res.end("Not found\n");
+  if (path.endsWith('/')) path += 'index.html';
+  const file = resolve(join(appRoot, normalize(path)));
+  if (file !== appRoot && !file.startsWith(appRoot + sep)) {
+    res.writeHead(403).end('forbidden');
     return;
   }
-  res.writeHead(200, { "content-type": TYPES[extname(file)] ?? "application/octet-stream" });
-  if (req.method === "GET") createReadStream(file).pipe(res);
-  else res.end();
-});
-
-server.listen(port, () => {
-  console.log(`GTA 6 Trophy Guide & Tracker at http://localhost:${port}/`);
+  let size: number;
+  try {
+    const info = statSync(file);
+    if (!info.isFile()) throw new Error('not a file');
+    size = info.size;
+  } catch {
+    res.writeHead(404).end('not found');
+    return;
+  }
+  res.writeHead(200, {
+    'content-type': TYPES[extname(file).toLowerCase()] ?? 'application/octet-stream',
+    'content-length': size,
+    'cache-control': 'no-store',
+  });
+  createReadStream(file).pipe(res);
+}).listen(port, '127.0.0.1', () => {
+  console.log(`GTA 6 trophy guide on http://localhost:${port}`);
 });
