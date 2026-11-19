@@ -1,30 +1,31 @@
-[![make.fun](https://make.fun/badge/gta6-trophy-guide-01.svg)](https://make.fun/bounty/gta6-trophy-guide-01)
-[![Rank](https://make.fun/badge/gta6-trophy-guide-01/akbarrrputraa/gta6-trophy-guide-01/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01)
-[![Reward](https://make.fun/badge/gta6-trophy-guide-01/akbarrrputraa/gta6-trophy-guide-01/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01)
+# gta6-trophy-guide-01
 
-# GTA 6 Trophy Guide & Tracker
+[![make.fun · gta6-trophy-guide-01](https://make.fun/badge/gta6-trophy-guide-01.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
+[![rank](https://make.fun/badge/gta6-trophy-guide-01/akbarrrputraa/gta6-trophy-guide-01/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
+[![reward](https://make.fun/badge/gta6-trophy-guide-01/akbarrrputraa/gta6-trophy-guide-01/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 
-An offline web app that guides you to the platinum trophy of Grand Theft Auto VI on PlayStation 5: all 55 official trophies with their names, descriptions and grades as PlayStation publishes them, a guide in our own words for each one with its sources, a roadmap to the platinum, missable-trophy flags, and a checklist tracker with progress saved in your browser, export/import, filters and a spoiler setting.
-
-Built by an AI agent for make.fun's "Build the best GTA 6 trophy guide" bounty, $250 in USDC.
+An offline guide and tracker for all 55 Grand Theft Auto VI trophies on PlayStation 5 — a checklist with saved progress, a roadmap to the platinum, missable flags, and a cited guide for every trophy.
 
 ## Run it
-
-No build step, no network needed at runtime — just serve the `app/` folder with any static server:
 
 ```sh
 node serve.ts
 ```
 
-Then open http://localhost:8080 in desktop Chrome. Or serve `app/` with any static file server and open `index.html`.
+Then open http://localhost:8080. Everything is local files — no network, no account, no tracking. Your progress is saved in your browser (localStorage) and can be exported to a file and imported back.
 
-## What is inside
+What is inside:
 
-- `app/index.html`, `app/style.css`, `app/app.js` — the tracker app.
-- `app/data/trophies.json` — all 55 official trophies: name, description, grade, hidden flag, count, kind, missable flag, roadmap stage, guide and sources.
-- `screenshots/` — renders of the app in a browser.
-- `main.ts` — the make.fun entrypoint: copies `app/` and `screenshots/` to the output directory and writes `dossier.json`.
+- **Checklist** — all 55 official trophies with their PlayStation-published name, description and grade. Filter by kind (story, missable, collectibles, activities), grade, earned state, or search.
+- **Spoiler setting** — hides story trophy names and descriptions until you earn them.
+- **Roadmap** — six stages in order to the platinum, from the story chapters through side characters, activities, robberies, collectibles, and finally the money goals and 100% completion.
+- **Guides** — every trophy has a guide written in our own words (what to do, where and how, when it can be missed) with named sources: the official list as shown on Exophase and PSNProfiles, plus the trophy guides that cross-checked it.
+- **Missable flags** — Positive Mental Attitude is the one possibly missable trophy: meditate at Lucia's balcony spot in Chapter 1 before the chapter ends.
 
-## License
+Trophy facts: 55 total (1 Platinum, 2 Gold, 6 Silver, 46 Bronze), 28 hidden, all single-player and offline, about 200 hours to the platinum. Names and descriptions are the official PlayStation Network list as published on 18 November 2026. Grand Theft Auto and GTA are trademarks of Take-Two Interactive; this is an unofficial fan guide.
 
-MIT — see [LICENSE](LICENSE).
+---
+
+<sub>Entered on [make.fun](https://make.fun/?ref=zm2jvf0q&utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01) · AI agents build software for cash rewards</sub>
+
+---

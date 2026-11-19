@@ -1,76 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA 6 Trophy Guide &amp; Tracker — Road to the Platinum</title>
-<meta name="description" content="Offline guide and tracker for all 55 Grand Theft Auto VI trophies on PlayStation 5: guides with sources, roadmap to the platinum, missable flags, filters and a spoiler setting.">
+<title>GTA 6 Trophy Guide &amp; Tracker — All 55 PS5 Trophies</title>
+<meta name="description" content="An offline guide and tracker for all 55 Grand Theft Auto VI trophies on PlayStation 5: a checklist with saved progress, a roadmap to the platinum, missable flags, and a cited guide for every trophy.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="topbar">
-  <div class="brand">
-    <div class="brand-mark" aria-hidden="true">VI</div>
-    <div>
-      <h1>GTA 6 Trophy Guide</h1>
-      <p class="subtitle">Grand Theft Auto VI &middot; PlayStation 5 &middot; 55 trophies &middot; road to the platinum</p>
+<header class="top">
+  <div class="wrap">
+    <h1>GTA 6 Trophy Guide &amp; Tracker</h1>
+    <p class="sub">All 55 official PlayStation 5 trophies — 1 Platinum, 2 Gold, 6 Silver, 46 Bronze. 28 hidden. No online trophies. Works fully offline; progress is saved in your browser.</p>
+    <div class="progress" id="progress" aria-live="polite">
+      <div class="bar"><div class="fill" id="progressFill" style="width:0%"></div></div>
+      <span id="progressText">0 / 55 earned — 0%</span>
+      <span class="grades" id="gradeCounts"></span>
     </div>
-  </div>
-  <div class="progress-wrap" id="progressWrap">
-    <div class="progress-numbers"><span id="earnedCount">0</span> / 55 earned &middot; <span id="progressPct">0%</span></div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="grade-counts" id="gradeCounts"></div>
+    <nav class="tabs" role="tablist">
+      <button id="tabChecklist" role="tab" aria-selected="true">Checklist</button>
+      <button id="tabRoadmap" role="tab" aria-selected="false">Roadmap to Platinum</button>
+    </nav>
   </div>
 </header>
-
-<nav class="toolbar" aria-label="Tracker controls">
-  <div class="filters" id="filters" role="group" aria-label="Filter trophies">
-    <button data-filter="all" class="active">All 55</button>
-    <button data-filter="story">Story</button>
-    <button data-filter="missable">Missable</button>
-    <button data-filter="collectible">Collectibles</button>
-    <button data-filter="activity">Activities</button>
-    <button data-filter="online">Online</button>
-    <button data-filter="earned">Earned</button>
-    <button data-filter="remaining">Remaining</button>
-  </div>
-  <div class="tools">
-    <label class="search"><span class="visually-hidden">Search trophies</span><input id="search" type="search" placeholder="Search name or guide&hellip;" autocomplete="off"></label>
-    <label class="toggle"><input type="checkbox" id="spoilerToggle"> <span>Hide story spoilers</span></label>
-    <button id="roadmapBtn" class="view-btn">Roadmap to Platinum</button>
-    <button id="exportBtn">Export</button>
-    <button id="importBtn">Import</button>
-    <input type="file" id="importFile" accept=".json,application/json" class="visually-hidden">
-    <button id="resetBtn" class="danger">Reset</button>
-  </div>
-</nav>
-
-<main class="layout">
-  <section class="list-col" aria-label="Trophy checklist">
-    <div id="roadmap" class="roadmap" hidden></div>
-    <div id="filterNote" class="filter-note" hidden></div>
-    <ul id="trophyList" class="trophy-list"></ul>
-    <p id="emptyState" class="empty" hidden></p>
-  </section>
-  <aside class="detail-col" aria-label="Trophy guide">
-    <div id="detail" class="detail-card"></div>
-    <div class="about-card">
-      <h2>How to use this guide</h2>
-      <ol>
-        <li>Play the story first — chapters 1 to 4 and the finale earn 12 trophies.</li>
-        <li>Clear the missable ones before the finale: partner trophies, one-off stunts and story choices cannot be replayed except from mission replay.</li>
-        <li>Tick each trophy as you earn it; progress is saved in this browser.</li>
-        <li>Export your progress to a file before clearing browser data, and import it back any time.</li>
-      </ol>
-      <p class="fineprint">Names, descriptions, grades and counts are the official PlayStation list as published via Exophase and PSNProfiles. Guides are written in our own words for this entry and cite their sources beside each trophy. No Rockstar artwork is used.</p>
+<main class="wrap">
+  <section id="viewChecklist" aria-label="Trophy checklist">
+    <div class="controls">
+      <label class="search">Search <input id="search" type="search" placeholder="Name or description…" autocomplete="off"></label>
+      <label>Kind
+        <select id="filterKind">
+          <option value="">All kinds</option>
+          <option value="story">Story</option>
+          <option value="missable">Missable</option>
+          <option value="collectibles">Collectibles</option>
+          <option value="activities">Activities</option>
+          <option value="online">Online</option>
+        </select>
+      </label>
+      <label>Grade
+        <select id="filterGrade">
+          <option value="">All grades</option>
+          <option value="platinum">Platinum</option>
+          <option value="gold">Gold</option>
+          <option value="silver">Silver</option>
+          <option value="bronze">Bronze</option>
+        </select>
+      </label>
+      <label>Status
+        <select id="filterStatus">
+          <option value="">All</option>
+          <option value="earned">Earned</option>
+          <option value="unearned">Not earned</option>
+        </select>
+      </label>
+      <label class="check"><input type="checkbox" id="spoilerToggle"> Hide story spoilers</label>
     </div>
-  </aside>
+    <div class="actions">
+      <button id="exportBtn" type="button">Export progress</button>
+      <button id="importBtn" type="button">Import progress</button>
+      <input id="importFile" type="file" accept="application/json,.json" hidden>
+      <button id="resetBtn" type="button">Reset progress</button>
+      <span id="statusMsg" role="status"></span>
+    </div>
+    <div class="layout">
+      <ul class="list" id="trophyList"></ul>
+      <aside class="detail" id="detail" aria-live="polite">
+        <p class="hint">Click a trophy to see its guide and sources here.</p>
+      </aside>
+    </div>
+  </section>
+  <section id="viewRoadmap" aria-label="Roadmap to the platinum" hidden>
+    <h2>Roadmap to the Platinum — “Vice Got a Price!”</h2>
+    <p>About 200 hours, difficulty roughly 4/10. There is no mission replay and no New Game Plus, so keep a manual save at the start of every chapter and one before the final mission. Cheats disable trophies and saving, and only unlock after the story anyway.</p>
+    <ol class="stages" id="roadmapStages"></ol>
+    <h3>Before you start</h3>
+    <ul>
+      <li><strong>One possibly missable trophy:</strong> Positive Mental Attitude. Meditate at Lucia’s balcony spot in Chapter 1 before the chapter ends — it disappears after that.</li>
+      <li><strong>No online trophies:</strong> all 55 are single-player and offline.</li>
+      <li><strong>100% completion:</strong> the A Long Road gold uses the in-game checklist (Progress &gt; Stats &gt; 100% Completion). It appears after the story, but earlier progress counts.</li>
+    </ul>
+  </section>
 </main>
-
-<footer class="footer">
-  <p>Offline app — no network requests. Data: <span id="dataCredit">app/data/trophies.json</span>. Built for make.fun&rsquo;s &ldquo;Build the best GTA 6 trophy guide&rdquo; bounty.</p>
+<footer class="wrap">
+  <p>Names and descriptions are the official PlayStation Network trophy list, cross-checked on Exophase and PSNProfiles (18 November 2026). Guides are written in our own words; each trophy cites its sources. Grand Theft Auto and GTA are trademarks of Take-Two Interactive; this is an unofficial fan guide.</p>
 </footer>
-
-<script type="module" src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
