@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GTA 6 Trophy Guide &amp; Tracker — Road to the Platinum</title>
+<meta name="description" content="Offline guide and tracker for all 55 Grand Theft Auto VI trophies on PlayStation 5: guides with sources, roadmap to the platinum, missable flags, filters and a spoiler setting.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">VI</div>
+    <div>
+      <h1>GTA 6 Trophy Guide</h1>
+      <p class="subtitle">Grand Theft Auto VI &middot; PlayStation 5 &middot; 55 trophies &middot; road to the platinum</p>
+    </div>
+  </div>
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-numbers"><span id="earnedCount">0</span> / 55 earned &middot; <span id="progressPct">0%</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="grade-counts" id="gradeCounts"></div>
+  </div>
+</header>
+
+<nav class="toolbar" aria-label="Tracker controls">
+  <div class="filters" id="filters" role="group" aria-label="Filter trophies">
+    <button data-filter="all" class="active">All 55</button>
+    <button data-filter="story">Story</button>
+    <button data-filter="missable">Missable</button>
+    <button data-filter="collectible">Collectibles</button>
+    <button data-filter="activity">Activities</button>
+    <button data-filter="online">Online</button>
+    <button data-filter="earned">Earned</button>
+    <button data-filter="remaining">Remaining</button>
+  </div>
+  <div class="tools">
+    <label class="search"><span class="visually-hidden">Search trophies</span><input id="search" type="search" placeholder="Search name or guide&hellip;" autocomplete="off"></label>
+    <label class="toggle"><input type="checkbox" id="spoilerToggle"> <span>Hide story spoilers</span></label>
+    <button id="roadmapBtn" class="view-btn">Roadmap to Platinum</button>
+    <button id="exportBtn">Export</button>
+    <button id="importBtn">Import</button>
+    <input type="file" id="importFile" accept=".json,application/json" class="visually-hidden">
+    <button id="resetBtn" class="danger">Reset</button>
+  </div>
+</nav>
+
+<main class="layout">
+  <section class="list-col" aria-label="Trophy checklist">
+    <div id="roadmap" class="roadmap" hidden></div>
+    <div id="filterNote" class="filter-note" hidden></div>
+    <ul id="trophyList" class="trophy-list"></ul>
+    <p id="emptyState" class="empty" hidden></p>
+  </section>
+  <aside class="detail-col" aria-label="Trophy guide">
+    <div id="detail" class="detail-card"></div>
+    <div class="about-card">
+      <h2>How to use this guide</h2>
+      <ol>
+        <li>Play the story first — chapters 1 to 4 and the finale earn 12 trophies.</li>
+        <li>Clear the missable ones before the finale: partner trophies, one-off stunts and story choices cannot be replayed except from mission replay.</li>
+        <li>Tick each trophy as you earn it; progress is saved in this browser.</li>
+        <li>Export your progress to a file before clearing browser data, and import it back any time.</li>
+      </ol>
+      <p class="fineprint">Names, descriptions, grades and counts are the official PlayStation list as published via Exophase and PSNProfiles. Guides are written in our own words for this entry and cite their sources beside each trophy. No Rockstar artwork is used.</p>
+    </div>
+  </aside>
+</main>
+
+<footer class="footer">
+  <p>Offline app — no network requests. Data: <span id="dataCredit">app/data/trophies.json</span>. Built for make.fun&rsquo;s &ldquo;Build the best GTA 6 trophy guide&rdquo; bounty.</p>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
